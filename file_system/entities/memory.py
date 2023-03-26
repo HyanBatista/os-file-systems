@@ -2,18 +2,7 @@ import abc
 import dataclasses
 import uuid
 
-
-@dataclasses.dataclass
-class BaseMemoryBlock(abc.ABC):
-    """Classe abstrata para todos os blocos de memória.
-
-    Atributos:
-        - id (UUID): Identificador do bloco de memória.
-        - size (int): Tamanho do block de memória em megabytes.
-    """
-
-    id: uuid.UUID
-    size: int
+from file_system.entities.block import BaseBlock
 
 
 @dataclasses.dataclass
@@ -23,9 +12,9 @@ class BaseMemory(abc.ABC):
     Atributos:
         - id (UUID): Identificador da Memória.
         - size (int): Tamanho total da memória principal em megabytes.
-        - blocks (list[BaseMemoryBlock]): Lista dos blocos de memória contidos na memória.
+        - blocks (list[BaseBlock]): Lista dos blocos de memória contidos na memória.
     """
 
     id: uuid.UUID
     size: int
-    blocks: list[BaseMemoryBlock]
+    blocks: list[BaseBlock]

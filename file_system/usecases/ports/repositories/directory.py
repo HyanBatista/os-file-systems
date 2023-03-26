@@ -13,7 +13,7 @@ class BaseDirectoryRepository(abc.ABC):
     abc.abstractmethod
 
     def add(self, directory: BaseDirectory) -> None:
-        """Adiciona um objeto no repositório.
+        """Adiciona um objeto diretório no repositório.
 
         Args:
             directory (BaseDirectory): O objeto diretório a ser adicionado.
@@ -34,7 +34,7 @@ class BaseDirectoryRepository(abc.ABC):
         Args:
             directory (BaseDirectory): O objeto diretório a ser recuperado.
         """
-    
+
     def update(self, directory: BaseDirectory) -> None:
         """Atualiza um objeto diretório.
 
