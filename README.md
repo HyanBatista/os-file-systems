@@ -15,4 +15,4 @@
 
 ## Requisitos Não-Funcionais
 
-- Usabilidade: O sistema deve ter uma interface de interação com o usuário via linha de comando.
+- Usabilidade: O sistema deve ter uma interface de interação com o usuário via terminal.
