@@ -11,6 +11,7 @@
 - Manipulação de arquivos: O usuário deve poder criar e excluir arquivos.
 - Manipulação de diretórios: O usuário deve poder criar e excluir diretórios e, também, poder listar os arquivos dentro dele.
 - Alerta de fragmentação: O sistema deve informar ao usuário quando há fragmentação interna e externa.
+- Unicidade: Arquivos e diretórios não devem ter o mesmo nome.
 
 ## Requisitos Não-Funcionais
 
