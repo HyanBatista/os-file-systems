@@ -2,42 +2,42 @@ import abc
 import copy
 import uuid
 
-from file_system.entities.memory import BaseMemory
-from file_system.usecases.errors.repositories.memory import (
-    MemoryNotFoundError,
-    MemoryDoesNotExistError,
+from file_system.entities.disk import BaseDisk
+from file_system.usecases.errors.repositories.disk import (
+    DiskNotFoundError,
+    DiskDoesNotExistError,
 )
 
 
-class BaseMemoryRepository(abc.ABC):
+class BaseDiskRepository(abc.ABC):
     abc.abstractmethod
 
-    def add(self, memory: BaseMemory) -> None:
-        """Adiciona um objeto memória no repositório.
+    def add(self, disk: BaseDisk) -> None:
+        """Adiciona um objeto disco no repositório.
 
         Args:
-            memory (BaseMemory): O objeto memória a ser adicionado.
+            disk (BaseDisk): O objeto disco a ser adicionado.
         """
         pass
 
-    def remove(self, memory: BaseMemory) -> None:
-        """Removes a memory from the repository.
+    def remove(self, disk: BaseDisk) -> None:
+        """Removes a disk from the repository.
 
         Args:
-            memory (BaseMemory): O objeto memória a ser removido.
+            disk (BaseDisk): O objeto disco a ser removido.
         """
         pass
 
-    def get(self, id: uuid.UUID) -> BaseMemory:
-        """Recupera um objeto memória usando seu ID.
+    def get(self, id: uuid.UUID) -> BaseDisk:
+        """Recupera um objeto disco usando seu ID.
 
         Args:
-            memory (BaseMemory): O objeto memória a ser recuperado.
+            disk (BaseDisk): O objeto disco a ser recuperado.
         """
     
-    def update(self, memory: BaseMemory) -> None:
-        """Atualiza um objeto memória.
+    def update(self, disk: BaseDisk) -> None:
+        """Atualiza um objeto disco.
 
         Args:
-            memory (BaseMemory): O objeto memória a ser atualizado.
+            disk (BaseDisk): O objeto disco a ser atualizado.
         """

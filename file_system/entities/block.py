@@ -5,11 +5,11 @@ import uuid
 
 @dataclasses.dataclass
 class BaseBlock(abc.ABC):
-    """Classe abstrata para todos os blocos de memória.
+    """Classe abstrata para todos os blocos.
 
     Atributos:
-        - id (UUID): Identificador do bloco de memória.
-        - size (int): Tamanho do block de memória em megabytes.
+        - id (UUID): Identificador do bloco.
+        - size (int): Tamanho do bloco em megabytes.
     """
 
     id: uuid.UUID
