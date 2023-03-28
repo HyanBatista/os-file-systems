@@ -14,7 +14,6 @@ class BaseFile(abc.ABC):
         size (int): O tamanho do arquivo em megabytes.
     """
 
-    id: uuid.UUID | None
     name: str
     size: int
 

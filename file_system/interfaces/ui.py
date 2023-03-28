@@ -1,5 +1,5 @@
 from file_system.entities.file import BaseDirectory
-from file_system.usecases.file import CreateDirectory, ListDirectories
+from file_system.usecases.file import CreateDirectory, ListDirectories, RemoveDirectory
 
 
 class CreateDirectoryUI:
@@ -16,6 +16,20 @@ class CreateDirectoryUI:
             print(f"Falha ao criar diretório: {str(e)}")
 
 
+class RemoveDirectoryUI:
+    def __init__(self, remove_directory: RemoveDirectory) -> None:
+        self.remove_directory = remove_directory
+
+    def __call__(self) -> None:
+        name = input("Digite o nome do diretório: ")
+
+        try:
+            self.remove_directory(name)
+            print("O diretório foi removido com sucesso!")
+        except Exception as e:
+            print(f"Falha ao remover diretório: {str(e)}")
+
+
 class ShowOptionsUI:
     def __call__(self) -> None:
         print("-----------------------------------------")
@@ -25,7 +39,9 @@ class ShowOptionsUI:
         print("2 - Deletar diretório")
         print("3 - Criar arquivo")
         print("4 - Deletar arquivo")
+        print("5 - Listar arquivos de um diretório")
         print("-----------------------------------------")
+
 
 class ShowDirectoriesUI:
     def __init__(self, list_directories: ListDirectories):

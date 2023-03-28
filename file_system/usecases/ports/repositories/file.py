@@ -31,8 +31,8 @@ class BaseFileRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def get(self, id: uuid.UUID) -> BaseFile:
-        """Recupera um objeto arquivo usando seu ID.
+    def get(self, name: str) -> BaseFile:
+        """Recupera um objeto arquivo usando seu nome.
 
         Args:
             file (BaseFile): O objeto arquivo a ser recuperado.
@@ -68,8 +68,8 @@ class BaseDirectoryRepository(BaseFileRepository):
         """
         pass
 
-    def get(self, id: uuid.UUID) -> BaseDirectory:
-        """Recupera um objeto diretório usando seu ID.
+    def get(self, name: str) -> BaseDirectory:
+        """Recupera um objeto diretório usando seu nome.
 
         Args:
             directory (BaseDirectory): O objeto diretório a ser recuperado.
@@ -91,28 +91,27 @@ class BaseDirectoryRepository(BaseFileRepository):
 
 class InMemoryFileRepository(BaseFileRepository):
     def __init__(self) -> None:
-        self.files: dict[uuid.UUID, BaseFile] = {}
+        self.files: dict[str, BaseFile] = {}
 
     def add(self, file: BaseFile) -> BaseFile:
-        file.id = uuid.uuid4()
-        self.files[file.id] = copy.deepcopy(file)
+        self.files[file.name] = copy.deepcopy(file)
         return copy.deepcopy(file)
 
     def remove(self, file: BaseFile) -> BaseFile:
         try:
-            return self.files.pop(file.id)
+            return self.files.pop(file.name)
         except KeyError:
             raise FileDoesNotExistError
 
-    def get(self, id: uuid.UUID) -> BaseFile:
+    def get(self, name: str) -> BaseFile:
         try:
-            return copy.deepcopy(self.files[id])
+            return copy.deepcopy(self.files[name])
         except KeyError:
             raise FileNotFoundError
 
     def update(self, file: BaseFile) -> BaseFile:
         try:
-            file_ = self.disks[file.id]
+            file_ = self.files[file.name]
             for attribute, value in vars(file).items():
                 setattr(file_, attribute, value)
             return copy.deepcopy(file_)
@@ -122,28 +121,27 @@ class InMemoryFileRepository(BaseFileRepository):
 
 class InMemoryDirectoryRepository(BaseDirectoryRepository):
     def __init__(self) -> None:
-        self.directories: dict[uuid.UUID, BaseDirectory] = {}
+        self.directories: dict[str, BaseDirectory] = {}
 
     def add(self, directory: BaseFile) -> BaseFile:
-        directory.id = uuid.uuid4()
-        self.directories[directory.id] = copy.deepcopy(directory)
+        self.directories[directory.name] = copy.deepcopy(directory)
         return copy.deepcopy(directory)
 
     def remove(self, directory: BaseFile) -> BaseFile:
         try:
-            return self.directories.pop(directory.id)
+            return self.directories.pop(directory.name)
         except KeyError:
             raise DirectoryDoesNotExistError
 
-    def get(self, id: uuid.UUID) -> BaseDirectory:
+    def get(self, name: str) -> BaseDirectory:
         try:
-            return copy.deepcopy(self.directories[id])
+            return copy.deepcopy(self.directories[name])
         except KeyError:
             raise DirectoryNotFoundError
 
     def update(self, directory: BaseDirectory) -> BaseDirectory:
         try:
-            directory_ = self.directories[directory.id]
+            directory_ = self.directories[directory.name]
             for attribute, value in vars(directory).items():
                 setattr(directory_, attribute, value)
             return copy.deepcopy(directory_)

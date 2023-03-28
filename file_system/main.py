@@ -23,6 +23,8 @@ def main():
             run = False
         elif option == 1:
             ui.CreateDirectoryUI(usecases.file.CreateDirectory(directory_repository))()
+        elif option == 2:
+            ui.RemoveDirectoryUI(usecases.file.RemoveDirectory(directory_repository))()
         else:
             print("Opções inválida!")
 
