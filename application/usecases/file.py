@@ -31,3 +31,13 @@ class ListLinkedFiles:
 
     def __call__(self) -> list[BaseLinkedFile]:
         return self.repository.list()
+
+
+class RemoveLinkedDirectory:
+    def __init__(self, repository: BaseFileRepository) -> None:
+        self.repository = repository
+
+    def __call__(self, name: str) -> BaseLinkedFile:
+        file = self.repository.get(name)
+        file = self.repository.remove(file)
+        return file

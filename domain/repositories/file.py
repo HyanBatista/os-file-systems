@@ -122,8 +122,8 @@ class DiskLinkedFileRepository(BaseLinkedFileRepository):
             block.used = False
             block.next = None
         
-        file.blocks = None
-        self.disk.files = None
+        file.blocks = []
+        self.disk.files = []
 
         self.repository.update(self.disk)
 

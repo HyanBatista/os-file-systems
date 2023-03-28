@@ -25,7 +25,7 @@ class BaseFile(abc.ABC):
 class BaseLinkedFile(BaseFile):
     parent: Self | None
     children: list[Self]
-    blocks: BaseBlockLinkedList
+    blocks: BaseBlockLinkedList | None = None
 
 
 @dataclasses.dataclass

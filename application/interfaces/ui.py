@@ -1,5 +1,5 @@
 # from application.usecases.file import CreateDirectory, ListDirectories, RemoveDirectory
-from application.usecases.file import CreateLinkedFile, ListLinkedFiles
+from application.usecases.file import CreateLinkedFile, ListLinkedFiles, RemoveLinkedDirectory
 from application.usecases.disk import ListDisks
 from domain.entities.file import LinkedDirectory, LinkedFile
 from domain.entities.linked_list import BlockLinkedList
@@ -15,25 +15,34 @@ class CreateLinkedDirectoryUI:
         size = 0
         type = "directory"
 
+        """
+        name: str,
+        size: int,
+        type: str,
+        blocks: BaseBlockLinkedList,
+        parent: BaseLinkedFile = [],
+        children: list[BaseLinkedFile] = [],
+        """
+
         try:
-            self.create_linked_file(name=name, size=size, type=type, blocks=blocks)
+            self.create_linked_file(name=name, size=size, type=type, blocks=blocks, parent=[], children=[])
             print(f"O repositório foi criado com sucesso!")
         except Exception as e:
             print(f"Falha ao criar diretório: {str(e)}")
 
 
-# class RemoveDirectoryUI:
-#     def __init__(self, remove_directory: RemoveDirectory) -> None:
-#         self.remove_directory = remove_directory
+class RemoveLinkedDirectoryUI:
+    def __init__(self, remoeve_linked_directory: RemoveLinkedDirectory) -> None:
+        self.remoeve_linked_directory = remoeve_linked_directory
 
-#     def __call__(self) -> None:
-#         name = input("Digite o nome do diretório: ")
+    def __call__(self) -> None:
+        name = input("Digite o nome do diretório: ")
 
-#         try:
-#             self.remove_directory(name)
-#             print("O diretório foi removido com sucesso!")
-#         except Exception as e:
-#             print(f"Falha ao remover diretório: {str(e)}")
+        try:
+            self.remoeve_linked_directory(name)
+            print("O diretório foi removido com sucesso!")
+        except Exception as e:
+            print(f"Falha ao remover diretório: {str(e)}")
 
 
 class ShowOptionsUI:
@@ -61,7 +70,7 @@ class ShowDirectoriesUI:
             if isinstance(file, LinkedDirectory):
                 print(f"{file.name}/")
                 for child in file.children:
-                    print(f"{child.name}")
+                    print(f"|__{child.name}")
         print("-----------------------------------------")
 
 
