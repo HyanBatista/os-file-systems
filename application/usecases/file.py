@@ -1,5 +1,5 @@
-from file_system.entities.file import BaseDirectory, BaseFile
-from file_system.usecases.ports.repositories.file import (
+from domain.entities.file import BaseDirectory, BaseFile
+from domain.repositories.file import (
     BaseDirectoryRepository,
     BaseFileRepository,
 )

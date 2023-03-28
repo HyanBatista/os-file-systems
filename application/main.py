@@ -1,8 +1,8 @@
 import os
 
-from file_system import usecases
-from file_system.interfaces import ui
-from file_system.usecases.ports import repositories
+from application import usecases
+from application.interfaces import ui
+from domain import repositories
 
 
 def main():

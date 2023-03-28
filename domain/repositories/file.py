@@ -2,8 +2,8 @@ import abc
 import copy
 import uuid
 
-from file_system.entities.file import BaseFile, BaseDirectory
-from file_system.usecases.errors.ports.repositories.file import (
+from domain.entities.file import BaseFile, BaseDirectory
+from domain.repositories.errors.file import (
     DirectoryNotFoundError,
     DirectoryDoesNotExistError,
     FileNotFoundError,

@@ -1,5 +1,5 @@
-from file_system.entities.file import BaseDirectory
-from file_system.usecases.file import CreateDirectory, ListDirectories, RemoveDirectory
+from domain.entities.file import BaseDirectory
+from application.usecases.file import CreateDirectory, ListDirectories, RemoveDirectory
 
 
 class CreateDirectoryUI:

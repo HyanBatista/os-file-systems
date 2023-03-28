@@ -2,8 +2,8 @@ import abc
 import copy
 import uuid
 
-from file_system.entities.disk import BaseDisk
-from file_system.usecases.errors.ports.repositories.disk import (
+from domain.entities.disk import BaseDisk
+from domain.repositories.errors.disk import (
     DiskNotFoundError,
     DiskDoesNotExistError,
 )

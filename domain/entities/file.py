@@ -1,7 +1,6 @@
 import abc
 import dataclasses
-import uuid
-from file_system.entities.linked_list import BaseBlockLinkedList
+from domain.entities.linked_list import BaseBlockLinkedList
 
 
 @dataclasses.dataclass

@@ -2,7 +2,7 @@ import abc
 import dataclasses
 import uuid
 
-from file_system.entities.block import BaseBlock
+from domain.entities.block import BaseBlock
 
 
 @dataclasses.dataclass

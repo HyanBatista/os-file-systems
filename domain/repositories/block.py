@@ -2,8 +2,8 @@ import abc
 import copy
 import uuid
 
-from file_system.entities.block import BaseBlock
-from file_system.usecases.errors.ports.repositories.block import (
+from domain.entities.block import BaseBlock
+from domain.repositories.errors.block import (
     BlockNotFoundError,
     BlockDoesNotExistError,
 )
