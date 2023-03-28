@@ -41,6 +41,9 @@ class BaseDiskRepository(abc.ABC):
         Args:
             disk (BaseDisk): O objeto disco a ser atualizado.
         """
+    
+    def list(self) -> list[BaseDisk]:
+        """Lista todos os discos."""
 
 
 class InMemoryDiskRepository(BaseDiskRepository):
@@ -72,3 +75,6 @@ class InMemoryDiskRepository(BaseDiskRepository):
             return copy.deepcopy(disk_)
         except KeyError:
             raise DiskDoesNotExistError
+
+    def list(self) -> list[BaseDisk]:
+        return [copy.deepcopy(value) for _, value in self.disks.items()]

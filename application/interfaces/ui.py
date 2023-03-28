@@ -1,33 +1,33 @@
-from domain.entities.file import BaseDirectory
-from application.usecases.file import CreateDirectory, ListDirectories, RemoveDirectory
+# from application.usecases.file import CreateDirectory, ListDirectories, RemoveDirectory
+from application.usecases.disk import ListDisks
 
 
-class CreateDirectoryUI:
-    def __init__(self, create_directory: CreateDirectory) -> None:
-        self.create_directory = create_directory
+# class CreateDirectoryUI:
+#     def __init__(self, create_directory: CreateDirectory) -> None:
+#         self.create_directory = create_directory
 
-    def __call__(self) -> None:
-        name = input("Digite um nome: ")
+#     def __call__(self) -> None:
+#         name = input("Digite um nome: ")
 
-        try:
-            self.create_directory(name)
-            print(f"O repositório foi criado com sucesso!")
-        except Exception as e:
-            print(f"Falha ao criar diretório: {str(e)}")
+#         try:
+#             self.create_directory(name)
+#             print(f"O repositório foi criado com sucesso!")
+#         except Exception as e:
+#             print(f"Falha ao criar diretório: {str(e)}")
 
 
-class RemoveDirectoryUI:
-    def __init__(self, remove_directory: RemoveDirectory) -> None:
-        self.remove_directory = remove_directory
+# class RemoveDirectoryUI:
+#     def __init__(self, remove_directory: RemoveDirectory) -> None:
+#         self.remove_directory = remove_directory
 
-    def __call__(self) -> None:
-        name = input("Digite o nome do diretório: ")
+#     def __call__(self) -> None:
+#         name = input("Digite o nome do diretório: ")
 
-        try:
-            self.remove_directory(name)
-            print("O diretório foi removido com sucesso!")
-        except Exception as e:
-            print(f"Falha ao remover diretório: {str(e)}")
+#         try:
+#             self.remove_directory(name)
+#             print("O diretório foi removido com sucesso!")
+#         except Exception as e:
+#             print(f"Falha ao remover diretório: {str(e)}")
 
 
 class ShowOptionsUI:
@@ -43,14 +43,23 @@ class ShowOptionsUI:
         print("-----------------------------------------")
 
 
-class ShowDirectoriesUI:
-    def __init__(self, list_directories: ListDirectories):
-        self.list_directories = list_directories
+# class ShowDirectoriesUI:
+#     def __init__(self, list_directories: ListDirectories):
+#         self.list_directories = list_directories
 
-    def __call__(self) -> None:
+#     def __call__(self) -> None:
+#         print("-----------------------------------------")
+#         print("Diretórios:")
+#         directories = self.list_directories()
+#         for directory in directories:
+#             print("***", str(directory), "***")
+#         print("-----------------------------------------")
+
+
+class ShowDiskInformationUI:
+    def __call__(self, list_disks: ListDisks) -> None:
         print("-----------------------------------------")
-        print("Diretórios:")
-        directories = self.list_directories()
-        for directory in directories:
-            print("***", str(directory), "***")
+        disks = list_disks()
+        for disk in disks:
+            print(f"[ 'ID': {disk.id}, 'Tamanho': {disk.size}, 'Fragmentado': 'disk.is_fragmented' ]")
         print("-----------------------------------------")

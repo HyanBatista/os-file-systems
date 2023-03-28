@@ -3,6 +3,7 @@ import dataclasses
 import uuid
 
 from domain.entities.block import BaseBlock
+from domain.entities.file import BaseFile
 
 
 @dataclasses.dataclass
@@ -18,6 +19,7 @@ class BaseDisk(abc.ABC):
     size: int
     id: uuid.UUID | None = None
     blocks: list[BaseBlock] | None = None
+    files: list[BaseFile] | None = None
 
 
 class Disk(BaseDisk):

@@ -34,7 +34,7 @@ class BaseBlockLinkedList(BaseLinkedList):
         pass
 
     @abc.abstractmethod
-    def to_list(self):
+    def to_list(self) -> list[BaseBlock]:
         pass
 
 
@@ -71,7 +71,7 @@ class BlockLinkedList(BaseBlockLinkedList):
                 return
             current = current.next
 
-    def to_list(self):
+    def to_list(self) -> list[BaseBlock]:
         blocks = []
         current = self.head
         while current.next is not None:

@@ -6,15 +6,17 @@ from domain import repositories
 
 
 def main():
-    # Iniciar os repositórios.
+    # Criar discco.
     disk_repository = repositories.disk.InMemoryDiskRepository()
-    file_repository = repositories.file.InMemoryFileRepository()
-    directory_repository = repositories.file.InMemoryDirectoryRepository()
-    block_repository = repositories.block.InMemoryBlockRepository()
+    disk = usecases.disk.CreateDisk(disk_repository)(block_type="block", block_size=200, number_blocks=14)
+
+    # # Iniciar repositório dos arquivos.
+    # file_repository = repositories.file.InMemoryDiskFileRepository(disk)
 
     run = True
     while run:
-        ui.ShowDirectoriesUI(usecases.file.ListDirectories(directory_repository))()
+        ui.ShowDiskInformationUI()(usecases.disk.ListDisks(disk_repository))
+        # ui.ShowDirectoriesUI(usecases.file.ListDirectories(file_repository))()
         print()
         ui.ShowOptionsUI()()
         option = int(input())
@@ -22,12 +24,15 @@ def main():
         if option == 0:
             run = False
         elif option == 1:
-            ui.CreateDirectoryUI(usecases.file.CreateDirectory(directory_repository))()
+            pass
+            # ui.CreateDirectoryUI(usecases.file.CreateDirectory(file_repository))()
         elif option == 2:
-            ui.RemoveDirectoryUI(usecases.file.RemoveDirectory(directory_repository))()
+            # ui.RemoveDirectoryUI(usecases.file.RemoveDirectory(file_repository))()
+            pass
         else:
             print("Opções inválida!")
-
+        
+        input("Aperte Enter para continuar...")
         os.system("cls" if os.name == "nt" else "clear")
 
 
