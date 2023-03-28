@@ -19,9 +19,17 @@ class CreateLinkedFile:
         children: list[BaseLinkedFile] = [],
     ) -> BaseLinkedFile:
         factory = linked_file_registry.get_factory(type)
-        file = factory(name, size, parent, children)
+
+        file = factory(name=name, size=size, parent=None, children=children)
         file.blocks = blocks
         self.repository.add(file)
+
+        if parent:
+            parent_ = self.repository.get(parent)
+            file.parent = parent_
+            parent_.children.append(file)
+            self.repository.update(parent_)
+
         return file
 
 
@@ -33,7 +41,7 @@ class ListLinkedFiles:
         return self.repository.list()
 
 
-class RemoveLinkedDirectory:
+class RemoveLinkedFile:
     def __init__(self, repository: BaseFileRepository) -> None:
         self.repository = repository
 

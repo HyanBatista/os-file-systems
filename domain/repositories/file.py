@@ -104,16 +104,19 @@ class DiskLinkedFileRepository(BaseLinkedFileRepository):
         self.repository = repository
 
     def add(self, file: BaseLinkedFile) -> BaseLinkedFile:
+        progress = file.size
         for block in self.disk.blocks:
-            if not block.used:
+            if not block.used and progress >= 0:
                 file.blocks.append(block)
+                progress = progress - block.size
                 block.used = True
+                print(file.blocks.to_list())
 
         self.disk.files.append(file)
-        self.disk = self.repository.update(self.disk)
+        self.repository.update(self.disk)
 
         return copy.deepcopy(file)
-    
+
     def list(self) -> list[BaseLinkedFile]:
         return [copy.deepcopy(file) for file in self.disk.files]
 
@@ -121,30 +124,42 @@ class DiskLinkedFileRepository(BaseLinkedFileRepository):
         for block in file.blocks.to_list():
             block.used = False
             block.next = None
-        
+
+        for file_ in self.disk.files:
+            if file_.name == file.parent.name:
+                for child in file_.children:
+                    print(child)
+                    if child.name == file.name:
+                        file_.children.remove(child)
+
+        file.parent = None
         file.blocks = []
-        self.disk.files = []
+        file.children = []
+
+        for file_ in self.disk.files:
+            if file_.name == file.name:
+                self.disk.files.remove(file_)
 
         self.repository.update(self.disk)
 
         return copy.deepcopy(file)
 
     def update(self, file: BaseLinkedFile) -> BaseLinkedFile:
-            for file_ in self.disk.files:
-                if file_.name == file.name:
-                    for attribute, value in vars(file).items():
-                        setattr(file_, attribute, value)
-                    self.repository.update(self.disk)
-                    return copy.deepcopy(file_)
+        for file_ in self.disk.files:
+            if file_.name == file.name:
+                for attribute, value in vars(file).items():
+                    setattr(file_, attribute, value)
+                self.repository.update(self.disk)
+                return copy.deepcopy(file_)
 
-            if type(file, LinkedDirectory):
-                raise DirectoryDoesNotExistError
-            else:
-                raise FileDoesNotExistError
+        if type(file, LinkedDirectory):
+            raise DirectoryDoesNotExistError
+        else:
+            raise FileDoesNotExistError
 
     def get(self, name: str) -> BaseLinkedFile:
         for file_ in self.disk.files:
             if file_.name == name:
                 return copy.deepcopy(file_)
-            
+
         raise FileNotFoundError

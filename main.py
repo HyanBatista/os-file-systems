@@ -27,7 +27,11 @@ def main():
         elif option == 1:
             ui.CreateLinkedDirectoryUI(usecases.file.CreateLinkedFile(file_repository))()
         elif option == 2:
-            ui.RemoveLinkedDirectoryUI(usecases.file.RemoveLinkedDirectory(file_repository))()
+            ui.RemoveLinkedDirectoryUI(usecases.file.RemoveLinkedFile(file_repository))()
+        elif option == 3:
+            ui.CreateLinkedFileUI(usecases.file.CreateLinkedFile(file_repository))()
+        elif option == 4:
+            ui.RemoveLinkedFileUI(usecases.file.RemoveLinkedFile(file_repository))()
         else:
             print("Opções inválida!")
         
