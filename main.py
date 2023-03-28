@@ -32,6 +32,8 @@ def main():
             ui.CreateLinkedFileUI(usecases.file.CreateLinkedFile(file_repository))()
         elif option == 4:
             ui.RemoveLinkedFileUI(usecases.file.RemoveLinkedFile(file_repository))()
+        elif option == 5:
+            ui.ShowLinkedFilePropertyUI(usecases.file.RetrieveLinkedFile(file_repository))()
         else:
             print("Opções inválida!")
         

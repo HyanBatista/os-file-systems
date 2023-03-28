@@ -17,6 +17,9 @@ class BaseBlock(abc.ABC):
     next: Self | None
     used: bool = False
 
+    def __str__(self) -> str:
+        return f"{str(self.id)}:{str(self.size)}"
+
 
 class Block(BaseBlock):
     pass

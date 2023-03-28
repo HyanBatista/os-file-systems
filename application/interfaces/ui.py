@@ -3,9 +3,10 @@ from application.usecases.file import (
     CreateLinkedFile,
     ListLinkedFiles,
     RemoveLinkedFile,
+    RetrieveLinkedFile
 )
 from application.usecases.disk import ListDisks
-from domain.entities.file import LinkedDirectory, LinkedFile
+from domain.entities.file import LinkedDirectory
 from domain.entities.linked_list import BlockLinkedList
 
 
@@ -56,6 +57,21 @@ class RemoveLinkedFileUI:
             print(f"Falha ao remover arquivo: {str(e)}")
 
 
+class ShowLinkedFilePropertyUI:
+    def __init__(self, retrieve_linked_file: RetrieveLinkedFile) -> None:
+        self.retrieve_linked_file = retrieve_linked_file
+
+    def __call__(self) -> None:
+        name = input("Digite o nome do diretório ou arquivo: ")
+        file = self.retrieve_linked_file(name)
+
+        print("-----------------------------------------")
+        print(f"Propriedades do diretório/arquivo {str(file)}:")
+        for attribute, value in vars(file).items():
+            print(f"**{attribute}** -----> {str(value) if not isinstance(value, list) else [(str(v)) for v in value]}")
+        print("-----------------------------------------")
+
+
 class CreateLinkedFileUI:
     def __init__(self, create_linked_file: CreateLinkedFile) -> None:
         self.create_linked_file = create_linked_file
@@ -90,6 +106,7 @@ class ShowOptionsUI:
         print("2 - Deletar diretório")
         print("3 - Criar arquivo")
         print("4 - Deletar arquivo")
+        print("5 - Ver propriedades de um diretório / arquivo")
         print("-----------------------------------------")
 
 

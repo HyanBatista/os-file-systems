@@ -49,3 +49,12 @@ class RemoveLinkedFile:
         file = self.repository.get(name)
         file = self.repository.remove(file)
         return file
+
+
+class RetrieveLinkedFile:
+    def __init__(self, repository: BaseFileRepository) -> None:
+        self.repository = repository
+
+    def __call__(self, name: str) -> BaseLinkedFile:
+        file = self.repository.get(name)
+        return file

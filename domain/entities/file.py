@@ -35,7 +35,9 @@ class LinkedDirectory(BaseLinkedFile):
 
 @dataclasses.dataclass
 class LinkedFile(BaseLinkedFile):
-    pass
+    
+    def __str__(self) -> str:
+        return self.name
 
 
 class BaseFileFactory(abc.ABC):

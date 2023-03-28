@@ -110,7 +110,6 @@ class DiskLinkedFileRepository(BaseLinkedFileRepository):
                 file.blocks.append(block)
                 progress = progress - block.size
                 block.used = True
-                print(file.blocks.to_list())
 
         self.disk.files.append(file)
         self.repository.update(self.disk)
@@ -128,7 +127,6 @@ class DiskLinkedFileRepository(BaseLinkedFileRepository):
         for file_ in self.disk.files:
             if file_.name == file.parent.name:
                 for child in file_.children:
-                    print(child)
                     if child.name == file.name:
                         file_.children.remove(child)
 

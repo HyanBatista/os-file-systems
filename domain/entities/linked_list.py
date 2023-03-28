@@ -48,7 +48,6 @@ class BlockLinkedList(BaseBlockLinkedList):
         else:
             current = self.head
             while current.next is not None:
-                print(current.next)
                 current = current.next
             current.next = block
 
@@ -80,3 +79,6 @@ class BlockLinkedList(BaseBlockLinkedList):
             blocks.append(current.next)
             current = current.next
         return blocks
+    
+    def __str__(self) -> str:
+        return ' -- '.join([str(block) for block in self.to_list()])
