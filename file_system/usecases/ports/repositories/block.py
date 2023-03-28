@@ -2,17 +2,16 @@ import abc
 import copy
 import uuid
 
-from file_system.entities.directory import BaseBlock
-from file_system.usecases.errors.repositories.directory import (
+from file_system.entities.block import BaseBlock
+from file_system.usecases.errors.ports.repositories.block import (
     BlockNotFoundError,
     BlockDoesNotExistError,
 )
 
 
 class BaseBlockRepository(abc.ABC):
-    abc.abstractmethod
-
-    def add(self, block: BaseBlock) -> None:
+    @abc.abstractmethod
+    def add(self, block: BaseBlock) -> BaseBlock:
         """Adiciona um objeto bloco no repositório.
 
         Args:
@@ -20,7 +19,8 @@ class BaseBlockRepository(abc.ABC):
         """
         pass
 
-    def remove(self, block: BaseBlock) -> None:
+    @abc.abstractmethod
+    def remove(self, block: BaseBlock) -> BaseBlock:
         """Removes a block from the repository.
 
         Args:
@@ -28,6 +28,7 @@ class BaseBlockRepository(abc.ABC):
         """
         pass
 
+    @abc.abstractmethod
     def get(self, id: uuid.UUID) -> BaseBlock:
         """Recupera um objeto bloco usando seu ID.
 
@@ -35,9 +36,41 @@ class BaseBlockRepository(abc.ABC):
             block (BaseBlock): O objeto bloco a ser recuperado.
         """
 
-    def update(self, block: BaseBlock) -> None:
+    @abc.abstractmethod
+    def update(self, block: BaseBlock) -> BaseBlock:
         """Atualiza um objeto bloco.
 
         Args:
             block (BaseBlock): O objeto bloco a ser atualizado.
         """
+
+
+class InMemoryBlockRepository(BaseBlockRepository):
+    def __init__(self) -> None:
+        self.blocks: dict[int, BaseBlock] = {}
+    
+    def add(self, block: BaseBlock) -> None:
+        block.id = len(self.blocks) + 1
+        self.blocks[block.id] = copy.deepcopy(block)
+        return copy.deepcopy(self.blocks[block.id])
+
+    def remove(self, block: BaseBlock) -> BaseBlock:
+        try:
+            return self.blocks.pop(block.id)
+        except KeyError:
+            raise BlockDoesNotExistError
+
+    def get(self, id: uuid.UUID) -> BaseBlock:
+        try:
+            return copy.deepcopy(self.blocks[id])
+        except KeyError:
+            raise BlockNotFoundError
+
+    def update(self, block: BaseBlock) -> BaseBlock:
+        try:
+            block_ = self.blocks[block.id]
+            for attribute, value in vars(block).items():
+                setattr(block_, attribute, value)
+            return copy.deepcopy(block_)
+        except KeyError:
+            raise BlockDoesNotExistError

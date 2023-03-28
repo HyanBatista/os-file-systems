@@ -15,6 +15,10 @@ class BaseDisk(abc.ABC):
         - blocks (list[BaseBlock]): Lista dos blocos de disco contidos na disco.
     """
 
-    id: uuid.UUID
     size: int
-    blocks: list[BaseBlock]
+    id: uuid.UUID | None = None
+    blocks: list[BaseBlock] | None = None
+
+
+class Disk(BaseDisk):
+    pass
