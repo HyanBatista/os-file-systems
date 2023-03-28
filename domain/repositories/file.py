@@ -108,7 +108,7 @@ class DiskLinkedFileRepository(BaseLinkedFileRepository):
             if not block.used:
                 file.blocks.append(block)
                 block.used = True
-        
+
         self.disk.files.append(file)
         self.disk = self.repository.update(self.disk)
 

@@ -1,19 +1,25 @@
 # from application.usecases.file import CreateDirectory, ListDirectories, RemoveDirectory
+from application.usecases.file import CreateLinkedFile, ListLinkedFiles
 from application.usecases.disk import ListDisks
+from domain.entities.file import LinkedDirectory, LinkedFile
+from domain.entities.linked_list import BlockLinkedList
 
 
-# class CreateDirectoryUI:
-#     def __init__(self, create_directory: CreateDirectory) -> None:
-#         self.create_directory = create_directory
+class CreateLinkedDirectoryUI:
+    def __init__(self, create_linked_file: CreateLinkedFile) -> None:
+        self.create_linked_file = create_linked_file
 
-#     def __call__(self) -> None:
-#         name = input("Digite um nome: ")
+    def __call__(self) -> None:
+        name = input("Digite um nome: ")
+        blocks = BlockLinkedList()
+        size = 0
+        type = "directory"
 
-#         try:
-#             self.create_directory(name)
-#             print(f"O repositório foi criado com sucesso!")
-#         except Exception as e:
-#             print(f"Falha ao criar diretório: {str(e)}")
+        try:
+            self.create_linked_file(name=name, size=size, type=type, blocks=blocks)
+            print(f"O repositório foi criado com sucesso!")
+        except Exception as e:
+            print(f"Falha ao criar diretório: {str(e)}")
 
 
 # class RemoveDirectoryUI:
@@ -43,17 +49,20 @@ class ShowOptionsUI:
         print("-----------------------------------------")
 
 
-# class ShowDirectoriesUI:
-#     def __init__(self, list_directories: ListDirectories):
-#         self.list_directories = list_directories
+class ShowDirectoriesUI:
+    def __init__(self, list_linked_files: ListLinkedFiles):
+        self.list_linked_files = list_linked_files
 
-#     def __call__(self) -> None:
-#         print("-----------------------------------------")
-#         print("Diretórios:")
-#         directories = self.list_directories()
-#         for directory in directories:
-#             print("***", str(directory), "***")
-#         print("-----------------------------------------")
+    def __call__(self) -> None:
+        print("-----------------------------------------")
+        print("Sistema de Arquivos:\n")
+        files = self.list_linked_files()
+        for file in files:
+            if isinstance(file, LinkedDirectory):
+                print(f"{file.name}/")
+                for child in file.children:
+                    print(f"{child.name}")
+        print("-----------------------------------------")
 
 
 class ShowDiskInformationUI:

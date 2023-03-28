@@ -52,6 +52,7 @@ class InMemoryDiskRepository(BaseDiskRepository):
     
     def add(self, disk: BaseDisk) -> BaseDisk:
         disk.id = uuid.uuid4()
+        disk.files = []
         self.disks[disk.id] = copy.deepcopy(disk)
         return copy.deepcopy(self.disks[disk.id])
 

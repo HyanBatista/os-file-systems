@@ -1,6 +1,7 @@
 import abc
 import dataclasses
 from domain.entities.linked_list import BaseBlockLinkedList
+from typing_extensions import Self
 
 
 @dataclasses.dataclass
@@ -22,12 +23,14 @@ class BaseFile(abc.ABC):
 
 @dataclasses.dataclass
 class BaseLinkedFile(BaseFile):
-    blocks: BaseBlockLinkedList | None = None
+    parent: Self | None
+    children: list[Self]
+    blocks: BaseBlockLinkedList
 
 
 @dataclasses.dataclass
 class LinkedDirectory(BaseLinkedFile):
-    files: list[BaseFile] | None = None
+    pass
 
 
 @dataclasses.dataclass
@@ -36,30 +39,40 @@ class LinkedFile(BaseLinkedFile):
 
 
 class BaseFileFactory(abc.ABC):
-    abc.abstractmethod
-
+    @abc.abstractmethod
     def __call__(self, name: str, size: int) -> BaseFile:
         pass
 
 
-class LinkedDirectoryFactory(BaseFileFactory):
-    def __call__(self, name: str, size: int) -> LinkedDirectory:
-        directory = LinkedDirectory(name, size)
+class BaseLinkedFileFactory(BaseFileFactory):
+    @abc.abstractmethod
+    def __call__(self, name: str, size: int, parent: BaseLinkedFile, children: list[BaseLinkedFile]) -> BaseLinkedFile:
+        pass
+
+
+class LinkedDirectoryFactory(BaseLinkedFileFactory):
+    def __call__(self, name: str, size: int, parent: BaseLinkedFile, children: list[BaseLinkedFile]) -> LinkedDirectory:
+        directory = LinkedDirectory(name=name, size=size, parent=parent, children=children)
         return directory
 
 
-class LinkedFileFactory(BaseFileFactory):
-    def __call__(self, name: str, size: int) -> LinkedFile:
-        file = LinkedFile(name, size)
+class LinkedFileFactory(BaseLinkedFileFactory):
+    def __call__(self, name: str, size: int, parent: BaseLinkedFile, children: list[BaseLinkedFile]) -> LinkedFile:
+        file = LinkedFile(name=name, size=size, parent=parent, children=children)
         return file
 
 
-class FileFactoryRegistry:
+class LinkedFileFactoryRegistry:
     def __init__(self) -> None:
         self.factories = {}
 
-    def register_factory(self, type: str, factory: BaseFileFactory) -> None:
+    def register_factory(self, type: str, factory: BaseLinkedFileFactory) -> None:
         self.factories[type] = factory
 
-    def get_factory(self, type: str) -> BaseFileFactory:
+    def get_factory(self, type: str) -> BaseLinkedFileFactory:
         return self.factories[type]
+
+
+linked_file_registry = LinkedFileFactoryRegistry()
+linked_file_registry.register_factory("file", LinkedFileFactory())
+linked_file_registry.register_factory("directory", LinkedDirectoryFactory())
